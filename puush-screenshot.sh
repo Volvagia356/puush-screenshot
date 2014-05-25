@@ -2,10 +2,22 @@
 # Screen capture and upload utility for puush
 # (C) 2014 Volvagia356
 #
-# Requires scrot, curl, zenity, and xclip
+# Requires scrot, curl, and xclip
+# zenity can be optional
+#
+# Usage: puush-screenshot.sh [--full|--area|--help]
 
 #Insert your API key here
 APIKEY=""
+
+function show_usage {
+    echo "Performs screen capture and uploads to puush"
+    echo "Usage: $0 [--full|--area|--help]"
+    echo "--full    Captures entire screen"
+    echo "--area    Captures window or rectangular area"
+    echo "--help    Shows this help"
+    echo "If an argument is used, the zenity UI is disabled"
+}
 
 function zenity {
     if [ $USE_ZENITY = 0 ]; then
@@ -15,6 +27,11 @@ function zenity {
         return $?
     fi
 }
+
+which zenity > /dev/null
+if [ $? != 0 ]; then
+    echo "zenity not available! See --help"
+fi
 
 FILENAME=/tmp/`tr -dc A-Za-z0-9 < /dev/urandom | head -c 8`.png
 
@@ -27,12 +44,15 @@ elif [ $# = 1 ]; then
         TYPE=1
     elif [ $1 = "--area" ]; then
         TYPE=2
+    elif [ $1 = "--help" ]; then
+        show_usage
+        exit
     else
-        echo "Invalid argument!"
+        echo "Invalid argument! See --help"
         exit
     fi
 else
-    echo "Invalid argument!"
+    echo "Invalid argument! See --help"
     exit
 fi
 
