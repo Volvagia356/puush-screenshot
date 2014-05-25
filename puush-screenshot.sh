@@ -2,7 +2,7 @@
 # Screen capture and upload utility for puush
 # (C) 2014 Volvagia356
 #
-# Requires zenity and imagemagick
+# Requires scrot, curl, zenity, and xclip
 
 #Insert your API key here
 APIKEY=""
@@ -13,9 +13,9 @@ TYPE=`zenity --list --text="Select a screenshot type:" --column="" --column="Typ
 if [ $? != 0 ]; then
     exit
 elif [ $TYPE = 1 ]; then
-    import -window root $FILENAME
+    scrot $FILENAME
 elif [ $TYPE = 2 ]; then
-    import $FILENAME
+    scrot -s $FILENAME
 fi
 
 HTML='<img src="data:image/png;base64,'`base64 $FILENAME`'" width="200px"><p>Upload this image?'
