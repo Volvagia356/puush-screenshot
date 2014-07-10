@@ -7,8 +7,8 @@
 #
 # Usage: puush-screenshot.sh [--full|--area|--help]
 
-#Insert your API key here
-APIKEY=""
+# Save your API key in ~/.config/puush
+APIKEY=`cat ~/.config/puush`
 
 function show_usage {
     echo "Performs screen capture and uploads to puush"
